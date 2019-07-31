@@ -61,9 +61,10 @@ def readEmail():
  connection.quit()
 
 while(True):
-    #try:
+    try:
         print("read email")
         readEmail()
         time.sleep(10)
-    #except:
-        #print("error while reading email")
+    except:
+        print("error while reading email")
+

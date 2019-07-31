@@ -6,6 +6,9 @@
 
 progpath="/home/pi/picamera-motion"
 progname="readEmail.py"
+pythonPath="python"
+
+
 
 echo "$0 ver 1.1 written by Claude Pageau"
 echo "-----------------------------------------------"
@@ -17,10 +20,10 @@ if [ ! -e $progpath/$progname ] ; then
   exit 1
 fi
 
-if [ -z "$( pgrep -f $progpath/$progname )" ]; then
+if [ -z "$( pgrep -f  $progpath/$progname )" ]; then
   if [ "$1" = "start" ]; then
-     echo "START   - Start $progpath/$progname in # Background ..."
-     $progpath/$progname >/dev/null 2>&1 &
+     echo "START   - Start $progpath/$progname in Background mode..."
+     /usr/bin/python3 $progpath/$progname >/dev/null 2>&1 &
   fi
 else
   if [ "$1" = "stop" ]; then
@@ -35,10 +38,11 @@ if [ -z "$( pgrep -f $progpath/$progname )" ]; then
     echo "INFO    - To Start $progpath/$progname execute command below"
     echo "INFO    - $0 start"
 else
-    progPID=$(pgrep -f $progpath/$progname)
+    progPID=$(pgrep -f  $progpath/$progname)
     echo "STATUS  - $progpath/$progname is Running ..."
     echo "STATUS  - PID is $progPID"
     echo "INFO    - To Stop $progpath/$progname execute command below"
     echo "INFO    - $0 stop"
 fi
 echo "Done"
+
