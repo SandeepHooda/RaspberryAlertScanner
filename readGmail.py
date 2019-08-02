@@ -7,7 +7,7 @@ import time
 pop3_server = 'pop.gmail.com'
 pop3_port = '995'
 username = 'foscamnotificationsandeep@gmail.com'
-password = 'mkvzopwhygniskdj'
+password = ''
 
 
 
