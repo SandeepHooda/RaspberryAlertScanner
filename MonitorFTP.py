@@ -53,13 +53,20 @@ def checkFtpLocation(path) :
         return False
 
 while(True):
-    cameraStatus = checkFtpLocation("/home/pi/ftp/d3d_1/")
-    if (cameraStatus != camera_1_status):
-        if (cameraStatus):
-            sendEmail("camera is up","camera 1");
-        else:
-            sendEmail("camera is down","camera 1");
-            requests.get("http://sanhoo-home-security.appspot.com/HumanDetected?deviceID=5")
-    camera_1_status = cameraStatus
+    try:
+        print("Monitor on")
+        cameraStatus = checkFtpLocation("/home/pi/ftp/d3d_1/")
+        if (cameraStatus != camera_1_status):
+            if (cameraStatus):
+                sendEmail("camera is up","camera 1");
+                camera_1_status = cameraStatus
+            else:
+                sendEmail("camera is down","camera 1");
+                response = requests.get("http://sanhoo-home-security.appspot.com/HumanDetected?deviceID=5")
+                print("Make ca call response code "+response.status_code)
+                if (response.status_code == 200):
+                    camera_1_status = cameraStatus
+    except:
+        print("Error in monitor")
     
     time.sleep(60)
