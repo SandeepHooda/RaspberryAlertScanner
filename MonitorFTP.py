@@ -37,7 +37,7 @@ def sendEmail(subject, body) :
         server.login(sender_email, password)
         msg = MIMEMultipart()
         msg['Subject'] = subject
-        body = "Python test mail"
+        body = body
         msg.attach(MIMEText(body, 'plain'))
         server.sendmail(sender_email, receiver_email, msg.as_string())
 
@@ -59,13 +59,15 @@ while(True):
         if (cameraStatus != camera_1_status):
             if (cameraStatus):
                 sendEmail("camera is up","camera 1");
-                camera_1_status = cameraStatus
             else:
                 sendEmail("camera is down","camera 1");
-                response = requests.get("http://sanhoo-home-security.appspot.com/HumanDetected?deviceID=5")
-                print("Make ca call response code "+response.status_code)
-                if (response.status_code == 200):
-                    camera_1_status = cameraStatus
+                
+            camera_1_status = cameraStatus
+        # Send heart beat every 60 second FTP sends photo every 18 seconds
+        if (cameraStatus):
+            requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=5&alarmTriggered=N")
+        else:
+            requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=5&alarmTriggered=Y")
     except:
         print("Error in monitor")
     
