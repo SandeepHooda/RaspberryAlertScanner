@@ -11,7 +11,7 @@ import os, sys, stat
 import requests
 
 username = 'foscamnotificationsandeep@gmail.com'
-password = '' #//This password is in post master, raspberry pi, D3D cameras
+password = 'nqyhmpfsmuiiyyof' #//This password is in post master, raspberry pi, D3D cameras
 
 
 port = 587  # For starttls
@@ -24,10 +24,20 @@ Subject: Camera D
 
 Your camera is not working id : """
 
-camera_1_status = False;
-camera_2_status = False;
-camera_3_status = False;
 
+
+class CameraStatus(object):
+    def __init__(self, id, status, ftpID):
+        self.id = id
+        self.status = status
+        self.ftpID = ftpID;
+allCameraStatus = []
+
+allCameraStatus.append(CameraStatus("5", False, "1"))
+
+for obj in allCameraStatus:
+    print (obj.id, obj.status)
+    
 def sendEmail(subject, body) :
     context = ssl.create_default_context()
     with smtplib.SMTP(smtp_server, port) as server:
@@ -53,22 +63,24 @@ def checkFtpLocation(path) :
         return False
 
 while(True):
-    try:
-        print("Monitor on")
-        cameraStatus = checkFtpLocation("/home/pi/ftp/d3d_1/")
-        if (cameraStatus != camera_1_status):
+    for obj in allCameraStatus:
+        try:
+            print("Monitor on for "+obj.id)
+            cameraStatus = checkFtpLocation("/home/pi/ftp/d3d_"+obj.ftpID+"/")
+            if (cameraStatus != obj.status):
+                if (cameraStatus):
+                    sendEmail("camera is up","camera 1");
+                else:
+                    sendEmail("camera is down","camera 1");
+                    
+                obj.status = cameraStatus
+            # Send heart beat every 60 second FTP sends photo every 18 seconds
+            url = "http://sanhoo-home-security.appspot.com/IamAlive?id="+obj.id+"&alarmTriggered="
             if (cameraStatus):
-                sendEmail("camera is up","camera 1");
+                requests.get(url+"N")
             else:
-                sendEmail("camera is down","camera 1");
-                
-            camera_1_status = cameraStatus
-        # Send heart beat every 60 second FTP sends photo every 18 seconds
-        if (cameraStatus):
-            requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=5&alarmTriggered=N")
-        else:
-            requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=5&alarmTriggered=Y")
-    except:
-        print("Error in monitor")
-    
+                requests.get(url+"Y")
+        except:
+            print("Error in monitor")
+        
     time.sleep(60)
