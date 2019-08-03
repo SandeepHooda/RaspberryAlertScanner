@@ -11,7 +11,7 @@ import os, sys, stat
 import requests
 
 username = 'foscamnotificationsandeep@gmail.com'
-password = 'nqyhmpfsmuiiyyof' #//This password is in post master, raspberry pi, D3D cameras
+password = '' #//This password is in post master, raspberry pi, D3D cameras
 
 
 port = 587  # For starttls
