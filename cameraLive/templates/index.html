@@ -2,11 +2,14 @@
 <html>
 <head>
 <title>Camera Live</title>
-
+<link rel="stylesheet" type="text/css" href="/static/style.css" media="screen" />
 </head>
-<body onload="loadCameraImage()">
+<body onload="checkIsClientActive()">
 <img id="img1" src="" width="45%" height="100%">
 <img id="img2" src="" width="45%" height="100%">
+<br/>
+<button id="cam1ActiveButton" onclick="toggleCameraActivity('1')" class="btnStyle">Turn On cam 1</button>
+<button id="cam2ActiveButton" onclick="toggleCameraActivity('2')" class="btnStyle">Turn On cam 2</button>
 <script src="/static/index.js"></script>
 
 </body>
