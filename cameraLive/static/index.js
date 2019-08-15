@@ -2,11 +2,12 @@ let isClientActive = false;
 let cam1Active = false;
 let cam2Active = false;
 let intervalHandel = null
+
 function sendHeartBeat() {
 var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-               
+               document.getElementById("currentTime").innerHTML = new Date();
 	    }
 	};
 	xhttp.open("GET", "/clientHearBeat", true);
@@ -20,9 +21,11 @@ function loadCameraImage() {
             intervalHandel = null;
 	 }else {
             if (cam1Active) {
+                document.getElementById("img1").src = "/static/dot.jpg"
 		document.getElementById("img1").src = "/static/1.jpg?random="+Math.random();
 	    }
 	    if (cam2Active ){
+                document.getElementById("img2").src = "/static/dot.jpg"
 		document.getElementById("img2").src = "/static/2.jpg?random="+Math.random();
             }
 	    if (cam1Active || cam2Active) {
