@@ -84,6 +84,9 @@ function isCameraActive(id) {
 	xhttp.send();
 }
 function checkIsClientActive() {
+hostIP = window.location.host;
+document.getElementById("piframe").src = "http://"+hostIP.substring(0, hostIP.indexOf(":"))+":8000/index.html";
+
        var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
