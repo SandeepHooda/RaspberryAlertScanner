@@ -2,7 +2,10 @@ let isClientActive = false;
 let cam1Active = false;
 let cam2Active = false;
 let intervalHandel = null
-
+let piCam = null;
+let fosCam = null;
+fosCamUrl = ":7080/snapshot.cgi?user=sandeephooda&pwd=ForgetNot85&count=";
+hostIP = null;
 function sendHeartBeat() {
 var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -31,12 +34,21 @@ function loadCameraImage() {
 	    if (cam1Active || cam2Active) {
                sendHeartBeat();
              }
+	    
          }
          
 	 
        }, 500);
   }
   
+}
+
+function foscamInterval() {
+setInterval(function(){ 
+FoscamCamera();
+	 
+}, 500);
+
 }
 
 function toggleCameraActivity(id) {
@@ -83,10 +95,24 @@ function isCameraActive(id) {
 	xhttp.open("GET", "/isCameraActive/"+id, true);
 	xhttp.send();
 }
+function FoscamCamera(){
+        //fosCam.src = "/static/dot.jpg"
+	if (hostIP.indexOf("192.168.0") ==0){
+	   fosCam.src = "http://192.168.0.105"+fosCamUrl+Math.random();
+	}else {
+          fosCam.src = "http://"+hostIP.substring(0, hostIP.indexOf(":"))+fosCamUrl+Math.random();
+	}
+}
+function PiCamera(){
+	
+	document.getElementById("piframe").src = "http://"+hostIP.substring(0, hostIP.indexOf(":"))+":8000/index.html";
+	
+}
 function checkIsClientActive() {
-hostIP = window.location.host;
-document.getElementById("piframe").src = "http://"+hostIP.substring(0, hostIP.indexOf(":"))+":8000/index.html";
-
+        hostIP = window.location.host;
+        fosCam = document.getElementById("foscamFrame");
+	PiCamera();
+	foscamInterval();
        var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
