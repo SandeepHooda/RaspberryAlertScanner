@@ -1,4 +1,5 @@
 let isClientActive = false;
+let IsPiHumanDetectOn = false;
 let cam1Active = false;
 let cam2Active = false;
 let intervalHandel = null
@@ -60,6 +61,18 @@ function toggleCameraActivity(id) {
 	    }
 	};
 	xhttp.open("GET", "/toggleCamera/"+id, true);
+	xhttp.send();
+}
+
+function togglePiHumanDetect() {
+     var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+               
+	       checkIsPiHumanDetectOn();
+	    }
+	};
+	xhttp.open("GET", "/togglePiHumanDetect", true);
 	xhttp.send();
 }
 
@@ -129,5 +142,24 @@ function checkIsClientActive() {
 	    }
 	};
 	xhttp.open("GET", "/isClientActive", true);
+	xhttp.send();
+}
+
+function checkIsPiHumanDetectOn(){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+               var turnOnPiHumanDetectBtn = document.getElementById("turnOnPiHumanDetectBtn");
+               if (xhttp.responseText == "True"){
+                 IsPiHumanDetectOn = true;
+	         turnOnPiHumanDetectBtn.innerHTML = "Turn Off Pi Human Detect";
+               }else {
+		IsPiHumanDetectOn = false;
+                turnOnPiHumanDetectBtn.innerHTML = "Turn On Pi Human Detect";
+               }
+	    }
+	};
+	xhttp.open("GET", "/isOnPiHumanDetect", true);
 	xhttp.send();
 }

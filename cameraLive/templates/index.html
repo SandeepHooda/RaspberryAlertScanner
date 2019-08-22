@@ -4,7 +4,9 @@
 <title>Camera Live</title>
 <link rel="stylesheet" type="text/css" href="/static/style.css" media="screen" />
 </head>
-<body onload="checkIsClientActive()">
+<body onload="checkIsClientActive();checkIsPiHumanDetectOn();">
+<button id="turnOnPiHumanDetectBtn" onclick="togglePiHumanDetect()" class="btnStyle">Turn On Pi Human Detect</button>
+<br/>
 <img id="img1" src="" width="45%" height="100%">
 <img id="img2" src="" width="45%" height="100%">
 <br/>

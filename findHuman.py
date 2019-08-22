@@ -111,22 +111,22 @@ detector.loadModel(detection_speed="faster")
 while True:
 
  try:
-  humanFound = False;
-  files = checkFtpLocation(ftpPath)
-  if files is not None :
-    for imagePath in files :
-       #print(imagePath)
-       if ( not humanFound ) : #If human already found then skip more detection in images of this batch
-         detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path ,imagePath), output_image_path=os.path.join(execution_path , "newd3d.jpg"))
-         for eachObject in detections:
-          if (eachObject["name"] == "person") :
-             humanFound = True;
-             requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=9&alarmTriggered=Y")
-             sendEmail(imagePath)
-          #print(eachObject["name"] , " : " , eachObject["percentage_probability"] )
-       moveFileForFtpMonitor(imagePath)
-  time.sleep(2)
-  requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=9")
+  Switch_on= "/home/pi/picamera-motion/cameraLive/PiHumanDetect"
+  if (os.path.isdir(Switch_on)) : #else don't run the detect code
+    humanFound = False;
+    files = checkFtpLocation(ftpPath)
+    if files is not None :
+      for imagePath in files :
+        if ( not humanFound ) : #If human already found then skip more detection in images of this batch
+          detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path ,imagePath), output_image_path=os.path.join(execution_path , "newd3d.jpg"))
+          for eachObject in detections:
+              if (eachObject["name"] == "person") :
+                humanFound = True;
+                requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=9&alarmTriggered=Y")
+                sendEmail(imagePath)
+        moveFileForFtpMonitor(imagePath)
+    time.sleep(2)
+    requests.get("http://sanhoo-home-security.appspot.com/IamAlive?id=9")
  except:
   traceback.print_exc()
 
