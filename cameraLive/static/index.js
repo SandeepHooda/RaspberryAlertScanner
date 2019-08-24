@@ -48,7 +48,7 @@ function foscamInterval() {
 setInterval(function(){ 
 FoscamCamera();
 	 
-}, 500);
+}, 1000);
 
 }
 
