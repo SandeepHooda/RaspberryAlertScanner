@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
+@app.route('/index')
 def index():
     return render_template("index.html")
 
@@ -21,6 +22,27 @@ def toggleCamera(id):
        os.mkdir(path)
        os.chmod(path, 0o777)
     return active
+
+@app.route('/togglePiHumanDetect')
+def togglePiHumanDetect():
+    active="True"
+    path= "/home/pi/picamera-motion/cameraLive/PiHumanDetect"
+    if (os.path.isdir(path)) :
+       shutil.rmtree(path, ignore_errors=False, onerror=None)
+       active="False"
+    else :
+       os.mkdir(path)
+       os.chmod(path, 0o777)
+    return active
+
+@app.route('/isOnPiHumanDetect')
+def isOnPiHumanDetect():
+    active="False"
+    path= "/home/pi/picamera-motion/cameraLive/PiHumanDetect"
+    if (os.path.isdir(path)) :
+       active="True"
+    return active
+
 
 @app.route('/isClientActive')
 def isClientActive():
