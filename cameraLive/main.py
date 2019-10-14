@@ -2,6 +2,7 @@
 import shutil
 import os, sys, stat
 import time
+import subprocess
 from flask import Flask, request, render_template, jsonify
 app = Flask(__name__)
 
@@ -60,6 +61,15 @@ def isCameraActive(id):
        return "True"
     else :
        return "False"
+    
+@app.route('/shutdownPi')
+def shutdownPi():
+    subprocess.run(["sudo", "shutdown","-h","now"]);
+
+
+@app.route('/rebootPi')
+def rebootPi():
+    subprocess.run(["sudo", "reboot","now"]);   
 
 @app.route('/clientHearBeat')
 def clientHearBeat():
