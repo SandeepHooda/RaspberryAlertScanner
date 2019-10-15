@@ -1,0 +1,11 @@
+03 23 * * * /sbin/reboot -h now
+
+*/2 * * * * python3 /home/pi/clinet_google_home_relay/getReminder.py
+* * * * * /home/pi/picamera-motion/MonitorFTP.sh start
+* * * * * /home/pi/picamera-motion/IAmAlive.sh start
+* * * * * /home/pi/picamera-motion/cameraLive/cameraLive.sh start #Flask web page
+* * * * * /home/pi/picamera-motion/cameraLive/capture_start.sh start #get latest image fromi d3d  camrea and put in static folder so that it gets i$
+* * * * * /home/pi/picamera-motion/rpi_camera_surveillance_system.sh start #Pi camera live streamin
+* * * * * /home/pi/picamera-motion/findHuman.sh start
+* * * * * /home/pi/clinet_google_home_relay/runGoogleRelay.sh start  # Start google assistance relay http://192.168.0.120:3000/
+*/15 * * * * sudo /home/pi/duckdns/duck.sh >/dev/null 2>&1

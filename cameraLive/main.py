@@ -61,14 +61,22 @@ def isCameraActive(id):
        return "True"
     else :
        return "False"
-    
+
+@app.route('/shutdown')
+@app.route('/reboot')
+def shutdownHtml():
+    return render_template("reboot.html");
+
+
 @app.route('/shutdownPi')
 def shutdownPi():
+    subprocess.run(["aplay", "/home/pi/music/shutdown.wav"]);
     subprocess.run(["sudo", "shutdown","-h","now"]);
 
 
 @app.route('/rebootPi')
 def rebootPi():
+    subprocess.run(["aplay", "/home/pi/music/reboot.wav"]);
     subprocess.run(["sudo", "reboot","now"]);   
 
 @app.route('/clientHearBeat')

@@ -163,3 +163,18 @@ function checkIsPiHumanDetectOn(){
 	xhttp.open("GET", "/isOnPiHumanDetect", true);
 	xhttp.send();
 }
+
+
+function powerOff(mode){
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	};
+        if (mode == "1"){
+           xhttp.open("GET", "/shutdownPi", true);
+        }else {
+            xhttp.open("GET", "/rebootPi", true);
+        }
+	
+	xhttp.send();
+}
